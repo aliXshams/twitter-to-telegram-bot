@@ -4,10 +4,16 @@ Well this bot is intented to fetch desired tweets from twitter and post them in 
 
 # Installation
 To use the script you must install the required dependencies by:
->`$ pip install -r requirements.txt`
+
+```shell
+$ pip install -r requirements.txt
+```
 # How to use 
 You can run script simply by calling the main.py file to the python interpreter
->`python main.py`
+
+```shell
+$ python main.py
+```
 
 Although your python interpreter might have a diffrent allias in your local machine's PATH
 
