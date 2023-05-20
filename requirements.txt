@@ -2,3 +2,4 @@ beautifulsoup4==4.11.2
 python-telegram-bot==20.3
 python-telegram-bot[job-queue]==20.3
 Requests==2.30.0
+lxml==4.9.2
