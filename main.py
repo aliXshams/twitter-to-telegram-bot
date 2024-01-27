@@ -25,11 +25,25 @@ try:
     from config import env
 except ImportError:
     print("""
-    ERROR: Missing config.py!
+    You haven't configed the script yet.
 
-    Please copy config.example.py into config.py and complete it!
+    Please follow the following steps to configure the script for the desired usage.
     """)
-    exit(1)
+    BOT_TOKEN = input("[Telegram bot token] : ")
+    ADMIN_ID = int(input("[Telegram owner ID or any user IDs that would control the bot] : "))
+    CHANNEL_ID = int(input("[Telegram channel ID or @username] : "))
+    env = {
+        "BOT_TOKEN": BOT_TOKEN,
+        "ADMIN_ID": [ADMIN_ID],
+        "CHANNEL_ID": CHANNEL_ID
+        }
+    
+    env_str = json.dumps(env, indent=4, default=str)
+
+    with open("config.py", "w") as f:
+        f.write(f"env = {env_str}")
+    
+    from config import env
 
 headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'
