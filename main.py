@@ -121,7 +121,7 @@ async def send_tweet(context: CallbackContext):
     try:
         global last_tweet_date
         query = "%23cybersecurity+OR+%23zeroday"
-        url = f"https://nitter.net/search/rss?f=tweets&q={query}&f-verified=on&e-replies=on&e-nativeretweets=on"
+        url = f"https://nitter.privacydev.net/search/rss?f=tweets&q={query}&f-verified=on&e-replies=on&e-nativeretweets=on"
         feed = ReadRss(url, headers)
         for t in reversed(feed.tweets_dicts):
             pub_date = t['pub_date']
