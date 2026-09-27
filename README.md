@@ -1,33 +1,59 @@
-# What is this Telegram bot for ?
-Well this bot is intented to fetch desired tweets from twitter and post them in your preferred Telegram channel .
+# Twitter-to-Telegram Bot
 
+A Telegram bot that monitors Twitter for tweets matching a search query and forwards new ones to a Telegram channel. Tweets are fetched through [Nitter](https://github.com/zedeus/nitter)'s RSS feeds, so no Twitter API key is needed.
 
-# Installation
-To use the script you must install the required dependencies by:
+> **Status:** This repository is archived and no longer maintained. It depends on public Nitter instances, which are unreliable and frequently go offline.
+
+## How it works
+
+Every 15 minutes the bot polls a Nitter RSS search feed and forwards any tweets newer than the last check to the configured Telegram channel. The default query tracks `#cybersecurity` OR `#zeroday` from verified accounts, excluding replies and retweets. The target channel is chosen interactively via Telegram's channel picker.
+
+## Requirements
+
+- Python 3.8+
+- A Telegram bot token (create one via [@BotFather](https://t.me/BotFather))
+- A Telegram channel where the bot is an admin
+
+## Installation
 
 ```shell
-$ pip install -r requirements.txt
+# Optional but recommended: use a virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
 ```
-# How to use 
-You can run script simply by calling the main.py file to the python interpreter
+
+## Configuration
+
+On first run the script asks for three things and saves them to `config.py` (gitignored):
+
+- **Telegram bot token** — from @BotFather
+- **Admin ID** — your Telegram user ID; only admins can control the bot
+- **Channel ID** — the target channel (can also be set later with `/add_channel`)
 
 ```shell
-$ python main.py
+python main.py
 ```
 
-Although your python interpreter might have a diffrent allias in your local machine's PATH
+The `query` variable and the Nitter instance URL are both set in `send_tweet()` inside `main.py` (see the live tracker at [status.d420.de](https://status.d420.de/) for working instances).
 
-# Commands
+## Commands
 
-## `/start`
-This command is used to test the bot and check it's status
+| Command | Description |
+| --- | --- |
+| `/start` | Check the bot is running |
+| `/add_channel` | Choose the target channel via Telegram's channel picker (replaces any existing one) |
+| `/channel_start` | Start forwarding new tweets (checks every 15 minutes) |
+| `/channel_stop` | Stop forwarding |
 
-## `/add_channel`
-This command is used to add your channel to bot's configuration so it sends the tweets where it should send
+All commands are admin-only; other users get an "Unauthorized User!" reply.
 
-## `/channel_start`
-This command is used to start the posting proccess in your channel by the bot
+## Known limitations
 
-## `/channel_stop`
-This command is used to stop the posting proccess in the channel
+- Depends on a public Nitter instance (currently `nitter.privacydev.net`, hardcoded in `main.py`). Nitter instances are unreliable and many have shut down. If a fetch fails, the bot logs the error and skips that cycle.
+- The search query is hardcoded; it can't be changed at runtime.
 
+## License
+
+MIT, see [LICENSE](LICENSE).
